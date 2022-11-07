@@ -4,6 +4,7 @@ import loginImg from '../../../assets/images/login/login.svg';
 import { FaFacebook, FaGoogle, FaLinkedin } from "react-icons/fa";
 import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
 import { GoogleAuthProvider } from 'firebase/auth';
+import { setAuthToken } from '../../../api/auth';
 
 const Login = () => {
     const {loginUser, signInGoogle} = useContext(AuthContext);
@@ -21,25 +22,8 @@ const Login = () => {
         loginUser(email, password)
             .then(result =>{
                 const user = result.user;
-                // console.log(user)
                 form.reset();
-
-                const currentUser = {
-                    email: user.email,
-                }
-                console.log( "current user",currentUser);
-                fetch('http://localhost:5000/jwt', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify(currentUser)
-                })
-                .then(res=> res.json())
-                .then(data => {
-                    localStorage.setItem('genius-token', data.token);
-                    navigate(from, {replace: true});
-                })
+                setAuthToken(user);
             })
             .catch(err =>{
                 console.error(err);
@@ -52,8 +36,9 @@ const Login = () => {
             .then(result =>{
                 const user = result.user;
                 console.log(user);
-                navigate(from, {replace: true});
+                setAuthToken(user);
             })
+            .catch(err => console.error(err))
     }
     return (
         <div className="hero py-10">

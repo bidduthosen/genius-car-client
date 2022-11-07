@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { setAuthToken } from '../../api/auth';
 import loginImg from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
@@ -10,7 +11,7 @@ const SignUp = () => {
     const handleCreateUser = event =>{
         event.preventDefault();
         const form = event.target;
-        const name = form.name.value;
+        // const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
         // console.log(name, email, password)
@@ -19,6 +20,7 @@ const SignUp = () => {
                 const user = result.user;
                 console.log(user)
                 form.reset();
+                setAuthToken(user);
             })
             .catch(err =>{
                 console.error(err);
