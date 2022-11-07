@@ -21,14 +21,29 @@ const Login = () => {
         loginUser(email, password)
             .then(result =>{
                 const user = result.user;
-                console.log(user)
+                // console.log(user)
                 form.reset();
-                navigate(from, {replace: true});
+
+                const currentUser = {
+                    email: user.email,
+                }
+                console.log( "current user",currentUser);
+                fetch('http://localhost:5000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                })
+                .then(res=> res.json())
+                .then(data => {
+                    localStorage.setItem('genius-token', data.token);
+                    navigate(from, {replace: true});
+                })
             })
             .catch(err =>{
                 console.error(err);
             })
-            .catch(err =>console.error(err))
 
     }
 

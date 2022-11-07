@@ -20,7 +20,7 @@ const Header = () => {
     </>;
 
     return (
-        <div className="navbar h-24 mt-12 mb-2 bg-base-100">
+        <div className="navbar h-24 mt-12 mb-2 bg-base-100 position: sticky top-0 z-10">
             <div className="navbar-start">
                 <div className="dropdown">
                 <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -45,7 +45,7 @@ const Header = () => {
                             user?.photoURL ?
                             <>
                                 <div className='tooltip' data-tip={user?.displayName}>
-                                    <img className='rounded-full h-14 mr-1' src={user.photoURL} alt="" />
+                                    <img className='rounded-full h-14 mr-1' src={user?.photoURL} alt="" />
                                 </div>
                             </>
                             :
